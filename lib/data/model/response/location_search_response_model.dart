@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 class LocationSearchResponseModel {
-  final List<Feature>? features;
-  final String? type;
+  final List<Prediction>? predictions;
+  final String? status;
 
   LocationSearchResponseModel({
-    this.features,
-    this.type,
+    this.predictions,
+    this.status,
   });
 
   LocationSearchResponseModel copyWith({
-    List<Feature>? features,
-    String? type,
+    List<Prediction>? predictions,
+    String? status,
   }) =>
       LocationSearchResponseModel(
-        features: features ?? this.features,
-        type: type ?? this.type,
+        predictions: predictions ?? this.predictions,
+        status: status ?? this.status,
       );
 
   factory LocationSearchResponseModel.fromJson(String str) =>
@@ -25,218 +25,210 @@ class LocationSearchResponseModel {
 
   factory LocationSearchResponseModel.fromMap(Map<String, dynamic> json) =>
       LocationSearchResponseModel(
-        features: json["features"] == null
+        predictions: json["predictions"] == null
             ? []
-            : List<Feature>.from(
-                json["features"]!.map((x) => Feature.fromMap(x))),
-        type: json["type"],
+            : List<Prediction>.from(
+                json["predictions"]!.map((x) => Prediction.fromMap(x))),
+        status: json["status"],
       );
 
   Map<String, dynamic> toMap() => {
-        "features": features == null
+        "predictions": predictions == null
             ? []
-            : List<dynamic>.from(features!.map((x) => x.toMap())),
-        "type": type,
+            : List<dynamic>.from(predictions!.map((x) => x.toMap())),
+        "status": status,
       };
 }
 
-class Feature {
-  final Geometry? geometry;
-  final String? type;
-  final Properties? properties;
+class Prediction {
+  final String? description;
+  final List<MatchedSubstring>? matchedSubstrings;
+  final String? placeId;
+  final String? reference;
+  final StructuredFormatting? structuredFormatting;
+  final List<Term>? terms;
+  final List<String>? types;
 
-  Feature({
-    this.geometry,
-    this.type,
-    this.properties,
+  Prediction({
+    this.description,
+    this.matchedSubstrings,
+    this.placeId,
+    this.reference,
+    this.structuredFormatting,
+    this.terms,
+    this.types,
   });
 
-  Feature copyWith({
-    Geometry? geometry,
-    String? type,
-    Properties? properties,
+  Prediction copyWith({
+    String? description,
+    List<MatchedSubstring>? matchedSubstrings,
+    String? placeId,
+    String? reference,
+    StructuredFormatting? structuredFormatting,
+    List<Term>? terms,
+    List<String>? types,
   }) =>
-      Feature(
-        geometry: geometry ?? this.geometry,
-        type: type ?? this.type,
-        properties: properties ?? this.properties,
+      Prediction(
+        description: description ?? this.description,
+        matchedSubstrings: matchedSubstrings ?? this.matchedSubstrings,
+        placeId: placeId ?? this.placeId,
+        reference: reference ?? this.reference,
+        structuredFormatting: structuredFormatting ?? this.structuredFormatting,
+        terms: terms ?? this.terms,
+        types: types ?? this.types,
       );
 
-  factory Feature.fromJson(String str) => Feature.fromMap(json.decode(str));
+  factory Prediction.fromJson(String str) =>
+      Prediction.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Feature.fromMap(Map<String, dynamic> json) => Feature(
-        geometry: json["geometry"] == null
+  factory Prediction.fromMap(Map<String, dynamic> json) => Prediction(
+        description: json["description"],
+        matchedSubstrings: json["matched_substrings"] == null
+            ? []
+            : List<MatchedSubstring>.from(json["matched_substrings"]!
+                .map((x) => MatchedSubstring.fromMap(x))),
+        placeId: json["place_id"],
+        reference: json["reference"],
+        structuredFormatting: json["structured_formatting"] == null
             ? null
-            : Geometry.fromMap(json["geometry"]),
-        type: json["type"],
-        properties: json["properties"] == null
-            ? null
-            : Properties.fromMap(json["properties"]),
+            : StructuredFormatting.fromMap(json["structured_formatting"]),
+        terms: json["terms"] == null
+            ? []
+            : List<Term>.from(json["terms"]!.map((x) => Term.fromMap(x))),
+        types: json["types"] == null
+            ? []
+            : List<String>.from(json["types"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toMap() => {
-        "geometry": geometry?.toMap(),
-        "type": type,
-        "properties": properties?.toMap(),
+        "description": description,
+        "matched_substrings": matchedSubstrings == null
+            ? []
+            : List<dynamic>.from(matchedSubstrings!.map((x) => x.toMap())),
+        "place_id": placeId,
+        "reference": reference,
+        "structured_formatting": structuredFormatting?.toMap(),
+        "terms": terms == null
+            ? []
+            : List<dynamic>.from(terms!.map((x) => x.toMap())),
+        "types": types == null ? [] : List<dynamic>.from(types!.map((x) => x)),
       };
 }
 
-class Geometry {
-  final List<double>? coordinates;
-  final String? type;
+class MatchedSubstring {
+  final int? length;
+  final int? offset;
 
-  Geometry({
-    this.coordinates,
-    this.type,
+  MatchedSubstring({
+    this.length,
+    this.offset,
   });
 
-  Geometry copyWith({
-    List<double>? coordinates,
-    String? type,
+  MatchedSubstring copyWith({
+    int? length,
+    int? offset,
   }) =>
-      Geometry(
-        coordinates: coordinates ?? this.coordinates,
-        type: type ?? this.type,
+      MatchedSubstring(
+        length: length ?? this.length,
+        offset: offset ?? this.offset,
       );
 
-  factory Geometry.fromJson(String str) => Geometry.fromMap(json.decode(str));
+  factory MatchedSubstring.fromJson(String str) =>
+      MatchedSubstring.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Geometry.fromMap(Map<String, dynamic> json) => Geometry(
-        coordinates: json["coordinates"] == null
-            ? []
-            : List<double>.from(json["coordinates"]!.map((x) => x?.toDouble())),
-        type: json["type"],
+  factory MatchedSubstring.fromMap(Map<String, dynamic> json) =>
+      MatchedSubstring(
+        length: json["length"],
+        offset: json["offset"],
       );
 
   Map<String, dynamic> toMap() => {
-        "coordinates": coordinates == null
-            ? []
-            : List<dynamic>.from(coordinates!.map((x) => x)),
-        "type": type,
+        "length": length,
+        "offset": offset,
       };
 }
 
-class Properties {
-  final String? osmType;
-  final int? osmId;
-  final List<double>? extent;
-  final String? country;
-  final String? osmKey;
-  final String? countrycode;
-  final String? osmValue;
-  final String? name;
-  final String? state;
-  final String? type;
-  final String? city;
-  final String? postcode;
-  final String? locality;
-  final String? street;
-  final String? district;
-  final String? housenumber;
+class StructuredFormatting {
+  final String? mainText;
+  final List<MatchedSubstring>? mainTextMatchedSubstrings;
+  final String? secondaryText;
 
-  Properties({
-    this.osmType,
-    this.osmId,
-    this.extent,
-    this.country,
-    this.osmKey,
-    this.countrycode,
-    this.osmValue,
-    this.name,
-    this.state,
-    this.type,
-    this.city,
-    this.postcode,
-    this.locality,
-    this.street,
-    this.district,
-    this.housenumber,
+  StructuredFormatting({
+    this.mainText,
+    this.mainTextMatchedSubstrings,
+    this.secondaryText,
   });
 
-  Properties copyWith({
-    String? osmType,
-    int? osmId,
-    List<double>? extent,
-    String? country,
-    String? osmKey,
-    String? countrycode,
-    String? osmValue,
-    String? name,
-    String? state,
-    String? type,
-    String? city,
-    String? postcode,
-    String? locality,
-    String? street,
-    String? district,
-    String? housenumber,
+  StructuredFormatting copyWith({
+    String? mainText,
+    List<MatchedSubstring>? mainTextMatchedSubstrings,
+    String? secondaryText,
   }) =>
-      Properties(
-        osmType: osmType ?? this.osmType,
-        osmId: osmId ?? this.osmId,
-        extent: extent ?? this.extent,
-        country: country ?? this.country,
-        osmKey: osmKey ?? this.osmKey,
-        countrycode: countrycode ?? this.countrycode,
-        osmValue: osmValue ?? this.osmValue,
-        name: name ?? this.name,
-        state: state ?? this.state,
-        type: type ?? this.type,
-        city: city ?? this.city,
-        postcode: postcode ?? this.postcode,
-        locality: locality ?? this.locality,
-        street: street ?? this.street,
-        district: district ?? this.district,
-        housenumber: housenumber ?? this.housenumber,
+      StructuredFormatting(
+        mainText: mainText ?? this.mainText,
+        mainTextMatchedSubstrings:
+            mainTextMatchedSubstrings ?? this.mainTextMatchedSubstrings,
+        secondaryText: secondaryText ?? this.secondaryText,
       );
 
-  factory Properties.fromJson(String str) =>
-      Properties.fromMap(json.decode(str));
+  factory StructuredFormatting.fromJson(String str) =>
+      StructuredFormatting.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Properties.fromMap(Map<String, dynamic> json) => Properties(
-        osmType: json["osm_type"],
-        osmId: json["osm_id"],
-        extent: json["extent"] == null
+  factory StructuredFormatting.fromMap(Map<String, dynamic> json) =>
+      StructuredFormatting(
+        mainText: json["main_text"],
+        mainTextMatchedSubstrings: json["main_text_matched_substrings"] == null
             ? []
-            : List<double>.from(json["extent"]!.map((x) => x?.toDouble())),
-        country: json["country"],
-        osmKey: json["osm_key"],
-        countrycode: json["countrycode"],
-        osmValue: json["osm_value"],
-        name: json["name"],
-        state: json["state"],
-        type: json["type"],
-        city: json["city"],
-        postcode: json["postcode"],
-        locality: json["locality"],
-        street: json["street"],
-        district: json["district"],
-        housenumber: json["housenumber"],
+            : List<MatchedSubstring>.from(json["main_text_matched_substrings"]!
+                .map((x) => MatchedSubstring.fromMap(x))),
+        secondaryText: json["secondary_text"],
       );
 
   Map<String, dynamic> toMap() => {
-        "osm_type": osmType,
-        "osm_id": osmId,
-        "extent":
-            extent == null ? [] : List<dynamic>.from(extent!.map((x) => x)),
-        "country": country,
-        "osm_key": osmKey,
-        "countrycode": countrycode,
-        "osm_value": osmValue,
-        "name": name,
-        "state": state,
-        "type": type,
-        "city": city,
-        "postcode": postcode,
-        "locality": locality,
-        "street": street,
-        "district": district,
-        "housenumber": housenumber,
+        "main_text": mainText,
+        "main_text_matched_substrings": mainTextMatchedSubstrings == null
+            ? []
+            : List<dynamic>.from(
+                mainTextMatchedSubstrings!.map((x) => x.toMap())),
+        "secondary_text": secondaryText,
+      };
+}
+
+class Term {
+  final int? offset;
+  final String? value;
+
+  Term({
+    this.offset,
+    this.value,
+  });
+
+  Term copyWith({
+    int? offset,
+    String? value,
+  }) =>
+      Term(
+        offset: offset ?? this.offset,
+        value: value ?? this.value,
+      );
+
+  factory Term.fromJson(String str) => Term.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Term.fromMap(Map<String, dynamic> json) => Term(
+        offset: json["offset"],
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "offset": offset,
+        "value": value,
       };
 }

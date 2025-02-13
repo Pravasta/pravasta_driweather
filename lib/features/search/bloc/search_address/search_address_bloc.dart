@@ -15,7 +15,8 @@ class SearchAddressBloc extends Bloc<SearchAddressEvent, SearchAddressState> {
       try {
         emit(_Loading());
 
-        final result = await _repository.searchAddress(event.input);
+        final result =
+            await _repository.searchAddress(event.input, event.token);
 
         result.fold(
           (l) => emit(_Error(l)),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,11 +27,11 @@ class _SearchPageState extends State<SearchPage> {
   late TextEditingController _searchController;
   late final Set<Marker> markers = {};
   LatLng? currentLatlng;
+  String? _sessionToken = '123456789';
 
   @override
   void initState() {
     super.initState();
-
     _searchController = TextEditingController();
     _searchController.addListener(() {
       _onChange();
@@ -38,9 +40,13 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   _onChange() {
-    context.read<SearchAddressBloc>().add(
-          SearchAddressEvent.searchAddress(_searchController.text),
-        );
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = (Random(12222322).toString());
+      });
+    }
+    context.read<SearchAddressBloc>().add(SearchAddressEvent.searchAddress(
+        _searchController.text, _sessionToken!));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -95,9 +101,8 @@ class _SearchPageState extends State<SearchPage> {
               ),
               controller: _searchController,
               onChanged: (value) {
-                context
-                    .read<SearchAddressBloc>()
-                    .add(SearchAddressEvent.searchAddress(value));
+                context.read<SearchAddressBloc>().add(
+                    SearchAddressEvent.searchAddress(value, _sessionToken!));
               },
             ),
             Visibility(
@@ -116,17 +121,20 @@ class _SearchPageState extends State<SearchPage> {
                           itemCount: data.length,
                           physics: AlwaysScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
+                            final location = data[index];
+
                             return ListTile(
                               onTap: () {
                                 Navigation.pushName(
                                   RoutesName.detail,
-                                  arguments: data[index].properties!.name,
+                                  arguments:
+                                      location.structuredFormatting!.mainText,
                                 );
                               },
                               leading: Icon(Icons.place),
                               contentPadding: EdgeInsets.all(0),
                               title: Text(
-                                data[index].properties?.name ?? '',
+                                location.structuredFormatting?.mainText ?? '',
                                 style: AppText.text16.copyWith(
                                   color: AppColors.blackColor,
                                 ),

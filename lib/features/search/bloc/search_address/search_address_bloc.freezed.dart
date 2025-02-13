@@ -19,19 +19,19 @@ mixin _$SearchAddressEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String input) searchAddress,
+    required TResult Function(String input, String token) searchAddress,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String input)? searchAddress,
+    TResult? Function(String input, String token)? searchAddress,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String input)? searchAddress,
+    TResult Function(String input, String token)? searchAddress,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,7 +119,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String input) searchAddress,
+    required TResult Function(String input, String token) searchAddress,
   }) {
     return started();
   }
@@ -128,7 +128,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String input)? searchAddress,
+    TResult? Function(String input, String token)? searchAddress,
   }) {
     return started?.call();
   }
@@ -137,7 +137,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String input)? searchAddress,
+    TResult Function(String input, String token)? searchAddress,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -188,7 +188,7 @@ abstract class _$$SearchAddressImplCopyWith<$Res> {
           _$SearchAddressImpl value, $Res Function(_$SearchAddressImpl) then) =
       __$$SearchAddressImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String input});
+  $Res call({String input, String token});
 }
 
 /// @nodoc
@@ -205,11 +205,16 @@ class __$$SearchAddressImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? input = null,
+    Object? token = null,
   }) {
     return _then(_$SearchAddressImpl(
       null == input
           ? _value.input
           : input // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -218,14 +223,16 @@ class __$$SearchAddressImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SearchAddressImpl implements _SearchAddress {
-  const _$SearchAddressImpl(this.input);
+  const _$SearchAddressImpl(this.input, this.token);
 
   @override
   final String input;
+  @override
+  final String token;
 
   @override
   String toString() {
-    return 'SearchAddressEvent.searchAddress(input: $input)';
+    return 'SearchAddressEvent.searchAddress(input: $input, token: $token)';
   }
 
   @override
@@ -233,11 +240,12 @@ class _$SearchAddressImpl implements _SearchAddress {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchAddressImpl &&
-            (identical(other.input, input) || other.input == input));
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, input);
+  int get hashCode => Object.hash(runtimeType, input, token);
 
   /// Create a copy of SearchAddressEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -251,29 +259,29 @@ class _$SearchAddressImpl implements _SearchAddress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String input) searchAddress,
+    required TResult Function(String input, String token) searchAddress,
   }) {
-    return searchAddress(input);
+    return searchAddress(input, token);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String input)? searchAddress,
+    TResult? Function(String input, String token)? searchAddress,
   }) {
-    return searchAddress?.call(input);
+    return searchAddress?.call(input, token);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String input)? searchAddress,
+    TResult Function(String input, String token)? searchAddress,
     required TResult orElse(),
   }) {
     if (searchAddress != null) {
-      return searchAddress(input);
+      return searchAddress(input, token);
     }
     return orElse();
   }
@@ -311,9 +319,11 @@ class _$SearchAddressImpl implements _SearchAddress {
 }
 
 abstract class _SearchAddress implements SearchAddressEvent {
-  const factory _SearchAddress(final String input) = _$SearchAddressImpl;
+  const factory _SearchAddress(final String input, final String token) =
+      _$SearchAddressImpl;
 
   String get input;
+  String get token;
 
   /// Create a copy of SearchAddressEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -329,7 +339,7 @@ mixin _$SearchAddressState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(List<Feature> data) loaded,
+    required TResult Function(List<Prediction> data) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -337,7 +347,7 @@ mixin _$SearchAddressState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(List<Feature> data)? loaded,
+    TResult? Function(List<Prediction> data)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -345,7 +355,7 @@ mixin _$SearchAddressState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(List<Feature> data)? loaded,
+    TResult Function(List<Prediction> data)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -441,7 +451,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(List<Feature> data) loaded,
+    required TResult Function(List<Prediction> data) loaded,
   }) {
     return initial();
   }
@@ -452,7 +462,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(List<Feature> data)? loaded,
+    TResult? Function(List<Prediction> data)? loaded,
   }) {
     return initial?.call();
   }
@@ -463,7 +473,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(List<Feature> data)? loaded,
+    TResult Function(List<Prediction> data)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -558,7 +568,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(List<Feature> data) loaded,
+    required TResult Function(List<Prediction> data) loaded,
   }) {
     return loading();
   }
@@ -569,7 +579,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(List<Feature> data)? loaded,
+    TResult? Function(List<Prediction> data)? loaded,
   }) {
     return loading?.call();
   }
@@ -580,7 +590,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(List<Feature> data)? loaded,
+    TResult Function(List<Prediction> data)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -702,7 +712,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(List<Feature> data) loaded,
+    required TResult Function(List<Prediction> data) loaded,
   }) {
     return error(this.error);
   }
@@ -713,7 +723,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(List<Feature> data)? loaded,
+    TResult? Function(List<Prediction> data)? loaded,
   }) {
     return error?.call(this.error);
   }
@@ -724,7 +734,7 @@ class _$ErrorImpl implements _Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(List<Feature> data)? loaded,
+    TResult Function(List<Prediction> data)? loaded,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -789,7 +799,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<Feature> data});
+  $Res call({List<Prediction> data});
 }
 
 /// @nodoc
@@ -811,7 +821,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<Feature>,
+              as List<Prediction>,
     ));
   }
 }
@@ -819,11 +829,11 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<Feature> data) : _data = data;
+  const _$LoadedImpl(final List<Prediction> data) : _data = data;
 
-  final List<Feature> _data;
+  final List<Prediction> _data;
   @override
-  List<Feature> get data {
+  List<Prediction> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_data);
@@ -860,7 +870,7 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(List<Feature> data) loaded,
+    required TResult Function(List<Prediction> data) loaded,
   }) {
     return loaded(data);
   }
@@ -871,7 +881,7 @@ class _$LoadedImpl implements _Loaded {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(List<Feature> data)? loaded,
+    TResult? Function(List<Prediction> data)? loaded,
   }) {
     return loaded?.call(data);
   }
@@ -882,7 +892,7 @@ class _$LoadedImpl implements _Loaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(List<Feature> data)? loaded,
+    TResult Function(List<Prediction> data)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -930,9 +940,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements SearchAddressState {
-  const factory _Loaded(final List<Feature> data) = _$LoadedImpl;
+  const factory _Loaded(final List<Prediction> data) = _$LoadedImpl;
 
-  List<Feature> get data;
+  List<Prediction> get data;
 
   /// Create a copy of SearchAddressState
   /// with the given fields replaced by the non-null parameter values.

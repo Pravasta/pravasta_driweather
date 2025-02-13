@@ -6,7 +6,8 @@ import 'package:weather_app/data/model/response/location_search_response_model.d
 abstract class SearchRepository {
   Future<Either<String, LocationResponseModel>> getLatLng();
   Future<Either<String, String>> getAddressFromLatLng(double lat, double lng);
-  Future<Either<String, List<Feature>>> searchAddress(String input);
+  Future<Either<String, List<Prediction>>> searchAddress(
+      String input, String token);
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -38,10 +39,11 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<Either<String, List<Feature>>> searchAddress(String input) async {
+  Future<Either<String, List<Prediction>>> searchAddress(
+      String input, String token) async {
     try {
-      final execute = await _datasource.searchAddress(input);
-      return Right(execute.features ?? []);
+      final execute = await _datasource.searchAddress(input, token);
+      return Right(execute.predictions ?? []);
     } catch (e) {
       return Left(e.toString());
     }

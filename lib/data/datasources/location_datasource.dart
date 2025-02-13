@@ -3,6 +3,7 @@ import 'package:geocoding/geocoding.dart' as geo;
 import 'package:http/http.dart' as http;
 
 import 'package:location/location.dart';
+import 'package:weather_app/core/variables/variable.dart';
 
 import 'package:weather_app/data/model/response/location_response_model.dart';
 
@@ -12,7 +13,7 @@ import '../model/response/location_search_response_model.dart';
 abstract class LocationDatasource {
   Future<LocationResponseModel> getCurrentPosition();
   Future<String> getAddressFromLatLng(double lat, double lng);
-  Future<LocationSearchResponseModel> searchAddress(String input);
+  Future<LocationSearchResponseModel> searchAddress(String input, String token);
 }
 
 class LocationDatasourceImpl implements LocationDatasource {
@@ -98,11 +99,15 @@ class LocationDatasourceImpl implements LocationDatasource {
   }
 
   @override
-  Future<LocationSearchResponseModel> searchAddress(String input) async {
+  Future<LocationSearchResponseModel> searchAddress(
+      String input, String token) async {
     try {
-      final baseUrl = 'https://photon.komoot.io/api?q=$input';
+      final baseUrl =
+          'https://maps.gomaps.pro/maps/api/place/autocomplete/json';
+      final request =
+          '$baseUrl?input=$input&key=${Variable.googleApiKey}&sessiontoken=$token';
 
-      var response = await _client.get(Uri.parse(baseUrl));
+      var response = await _client.get(Uri.parse(request));
 
       if (response.statusCode == 200) {
         return LocationSearchResponseModel.fromJson(response.body);

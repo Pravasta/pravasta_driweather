@@ -32,6 +32,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ellips.png
   AssetGenImage get ellips => const AssetGenImage('assets/icons/ellips.png');
 
+  /// File path: assets/icons/icon.jpg
+  AssetGenImage get icon => const AssetGenImage('assets/icons/icon.jpg');
+
   /// File path: assets/icons/map.png
   AssetGenImage get map => const AssetGenImage('assets/icons/map.png');
 
@@ -75,6 +78,7 @@ class $AssetsIconsGen {
     cloud,
     cloudHome,
     ellips,
+    icon,
     map,
     notif,
     raini,
